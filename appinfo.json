@@ -2,11 +2,11 @@
   "uuid": "7732aaf0-82f8-4757-b86e-28784359191e",
   "shortName": "MinistryOfSillyWatches",
   "longName": "MinistryOfSillyWatches",
-  "companyName": "MakeAwesomeHappen",
+  "companyName": "Olivier Mehani",
   "versionCode": 1,
   "versionLabel": "1.0",
   "watchapp": {
-    "watchface": false
+    "watchface": true
   },
   "appKeys": {
     "dummy": 0
