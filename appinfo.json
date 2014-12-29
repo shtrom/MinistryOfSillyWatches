@@ -12,6 +12,73 @@
     "dummy": 0
   },
   "resources": {
-    "media": []
+    "media": [
+      {
+	"menuIcon": true,
+	"name": "ICON",
+	"file": "images/sillywalks/icon.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_00",
+	"file": "images/sillywalks/00.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_01",
+	"file": "images/sillywalks/01.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_02",
+	"file": "images/sillywalks/02.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_03",
+	"file": "images/sillywalks/03.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_04",
+	"file": "images/sillywalks/04.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_05",
+	"file": "images/sillywalks/05.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_06",
+	"file": "images/sillywalks/06.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_07",
+	"file": "images/sillywalks/07.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_08",
+	"file": "images/sillywalks/08.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_09",
+	"file": "images/sillywalks/09.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_10",
+	"file": "images/sillywalks/10.png",
+	"type": "png"
+      },
+      {
+	"name": "FACE_11",
+	"file": "images/sillywalks/11.png",
+	"type": "png"
+      }
+    ]
   }
 }
