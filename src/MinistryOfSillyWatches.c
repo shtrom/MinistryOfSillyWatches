@@ -2,7 +2,6 @@
 
 static Window *window;
 static BitmapLayer *bitmap_layer;
-static GBitmap *icon_bitmap;
 static GBitmap *face_00_bitmap;
 static GBitmap *face_01_bitmap;
 static GBitmap *face_02_bitmap;
@@ -16,62 +15,56 @@ static GBitmap *face_09_bitmap;
 static GBitmap *face_10_bitmap;
 static GBitmap *face_11_bitmap;
 
+#define SET_FACE(face) do {								\
+  if (!face_ ## face ## _bitmap) {							\
+    face_ ## face ## _bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_ ## face);\
+    if (!face_ ## face ## _bitmap) {							\
+      APP_LOG(APP_LOG_LEVEL_ERROR, "%d: face allocation error for %d",		\
+	  hour, RESOURCE_ID_FACE_ ## face);						\
+    }											\
+  }											\
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_00_bitmap);		\
+  bitmap_layer_set_bitmap(bitmap_layer, face_00_bitmap);				\
+} while(0)
+
 static void update_time(struct tm *tick_time) {
   int hour;
-  strftime(buffer, sizeof("00:00"), "%I:%M", tick_time);
-  icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_00);
   switch((hour = tick_time->tm_sec % 12)) {
   case 0:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_00_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_00_bitmap);
+    SET_FACE(00);
     break;
   case 1:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_01_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_01_bitmap);
+    SET_FACE(01);
     break;
   case 2:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_02_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_02_bitmap);
+    SET_FACE(02);
     break;
   case 3:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_03_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_03_bitmap);
+    SET_FACE(03);
     break;
   case 4:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_04_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_04_bitmap);
+    SET_FACE(04);
     break;
   case 5:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_05_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_05_bitmap);
+    SET_FACE(05);
     break;
   case 6:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_06_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_06_bitmap);
+    SET_FACE(06);
     break;
   case 7:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_07_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_07_bitmap);
+    SET_FACE(07);
     break;
   case 8:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_08_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_08_bitmap);
+    SET_FACE(08);
     break;
   case 9:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_09_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_09_bitmap);
+    SET_FACE(09);
     break;
   case 10:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_10_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_10_bitmap);
+    SET_FACE(10);
     break;
   case 11:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_11_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, face_11_bitmap);
-    break;
-  default:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_00_bitmap);
-    bitmap_layer_set_bitmap(bitmap_layer, icon_bitmap);
+    SET_FACE(11);
     break;
   }
 }
@@ -87,21 +80,7 @@ static void window_load(Window *window) {
   time_t temp = time(NULL);
   struct tm *tick_time = localtime(&temp);
 
-  icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON);
-  face_00_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_00);
-  face_01_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_01);
-  face_02_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_02);
-  face_03_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_03);
-  face_04_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_04);
-  face_05_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_05);
-  face_06_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_06);
-  face_07_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_07);
-  face_08_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_08);
-  face_09_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_09);
-  face_10_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_10);
-  face_11_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_11);
   bitmap_layer = bitmap_layer_create(bounds);
-  bitmap_layer_set_bitmap(bitmap_layer, icon_bitmap);
 
   update_time(tick_time);
 
@@ -109,6 +88,42 @@ static void window_load(Window *window) {
 }
 
 static void window_unload(Window *window) {
+  if (face_00_bitmap) {
+    gbitmap_destroy(face_00_bitmap);
+  }
+  if (face_01_bitmap) {
+    gbitmap_destroy(face_01_bitmap);
+  }
+  if (face_02_bitmap) {
+    gbitmap_destroy(face_02_bitmap);
+  }
+  if (face_03_bitmap) {
+    gbitmap_destroy(face_03_bitmap);
+  }
+  if (face_04_bitmap) {
+    gbitmap_destroy(face_04_bitmap);
+  }
+  if (face_05_bitmap) {
+    gbitmap_destroy(face_05_bitmap);
+  }
+  if (face_06_bitmap) {
+    gbitmap_destroy(face_06_bitmap);
+  }
+  if (face_07_bitmap) {
+    gbitmap_destroy(face_07_bitmap);
+  }
+  if (face_08_bitmap) {
+    gbitmap_destroy(face_08_bitmap);
+  }
+  if (face_09_bitmap) {
+    gbitmap_destroy(face_09_bitmap);
+  }
+  if (face_10_bitmap) {
+    gbitmap_destroy(face_10_bitmap);
+  }
+  if (face_11_bitmap) {
+    gbitmap_destroy(face_11_bitmap);
+  }
   bitmap_layer_destroy(bitmap_layer);
 }
 
