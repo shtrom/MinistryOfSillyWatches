@@ -81,6 +81,7 @@ static void window_load(Window *window) {
 
 static void window_unload(Window *window) {
   bitmap_layer_destroy(bitmap_layer);
+  gbitmap_destroy(face_bitmap);
 }
 
 static void init(void) {
