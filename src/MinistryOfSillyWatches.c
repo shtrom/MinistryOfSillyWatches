@@ -2,63 +2,65 @@
 
 static Window *window;
 static BitmapLayer *bitmap_layer;
-static GBitmap *face_00_bitmap;
-static GBitmap *face_01_bitmap;
-static GBitmap *face_02_bitmap;
-static GBitmap *face_03_bitmap;
-static GBitmap *face_04_bitmap;
-static GBitmap *face_05_bitmap;
-static GBitmap *face_06_bitmap;
-static GBitmap *face_07_bitmap;
-static GBitmap *face_08_bitmap;
-static GBitmap *face_09_bitmap;
+static GBitmap *face_0_bitmap;
+static GBitmap *face_1_bitmap;
+static GBitmap *face_2_bitmap;
+static GBitmap *face_3_bitmap;
+static GBitmap *face_4_bitmap;
+static GBitmap *face_5_bitmap;
+static GBitmap *face_6_bitmap;
+static GBitmap *face_7_bitmap;
+static GBitmap *face_8_bitmap;
+static GBitmap *face_9_bitmap;
 static GBitmap *face_10_bitmap;
 static GBitmap *face_11_bitmap;
 
-#define SET_FACE(face) do {								\
-  if (!face_ ## face ## _bitmap) {							\
-    face_ ## face ## _bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_ ## face);\
-    if (!face_ ## face ## _bitmap) {							\
-      APP_LOG(APP_LOG_LEVEL_ERROR, "%d: face allocation error for %d",		\
-	  hour, RESOURCE_ID_FACE_ ## face);						\
-    }											\
-  }											\
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_00_bitmap);		\
-  bitmap_layer_set_bitmap(bitmap_layer, face_00_bitmap);				\
+#define SET_FACE(FACE_ID) do {						\
+  if (!face_ ## FACE_ID ## _bitmap) {					\
+    face_ ## FACE_ID ## _bitmap =					\
+      gbitmap_create_with_resource(RESOURCE_ID_FACE_ ## FACE_ID);	\
+    if (!face_ ## FACE_ID ## _bitmap) {					\
+      APP_LOG(APP_LOG_LEVEL_ERROR, "%d: face allocation error for %d",	\
+	  FACE_ID, RESOURCE_ID_FACE_ ## FACE_ID);			\
+    }									\
+  }									\
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p",			\
+      FACE_ID, face_ ## FACE_ID ## _bitmap);				\
+  bitmap_layer_set_bitmap(bitmap_layer, face_ ## FACE_ID ## _bitmap);	\
 } while(0)
 
 static void update_time(struct tm *tick_time) {
   int hour;
   switch((hour = tick_time->tm_sec % 12)) {
   case 0:
-    SET_FACE(00);
+    SET_FACE(0);
     break;
   case 1:
-    SET_FACE(01);
+    SET_FACE(1);
     break;
   case 2:
-    SET_FACE(02);
+    SET_FACE(2);
     break;
   case 3:
-    SET_FACE(03);
+    SET_FACE(3);
     break;
   case 4:
-    SET_FACE(04);
+    SET_FACE(4);
     break;
   case 5:
-    SET_FACE(05);
+    SET_FACE(5);
     break;
   case 6:
-    SET_FACE(06);
+    SET_FACE(6);
     break;
   case 7:
-    SET_FACE(07);
+    SET_FACE(7);
     break;
   case 8:
-    SET_FACE(08);
+    SET_FACE(8);
     break;
   case 9:
-    SET_FACE(09);
+    SET_FACE(9);
     break;
   case 10:
     SET_FACE(10);
@@ -88,35 +90,35 @@ static void window_load(Window *window) {
 }
 
 static void window_unload(Window *window) {
-  if (face_00_bitmap) {
-    gbitmap_destroy(face_00_bitmap);
+  if (face_0_bitmap) {
+    gbitmap_destroy(face_0_bitmap);
   }
-  if (face_01_bitmap) {
-    gbitmap_destroy(face_01_bitmap);
+  if (face_1_bitmap) {
+    gbitmap_destroy(face_1_bitmap);
   }
-  if (face_02_bitmap) {
-    gbitmap_destroy(face_02_bitmap);
+  if (face_2_bitmap) {
+    gbitmap_destroy(face_2_bitmap);
   }
-  if (face_03_bitmap) {
-    gbitmap_destroy(face_03_bitmap);
+  if (face_3_bitmap) {
+    gbitmap_destroy(face_3_bitmap);
   }
-  if (face_04_bitmap) {
-    gbitmap_destroy(face_04_bitmap);
+  if (face_4_bitmap) {
+    gbitmap_destroy(face_4_bitmap);
   }
-  if (face_05_bitmap) {
-    gbitmap_destroy(face_05_bitmap);
+  if (face_5_bitmap) {
+    gbitmap_destroy(face_5_bitmap);
   }
-  if (face_06_bitmap) {
-    gbitmap_destroy(face_06_bitmap);
+  if (face_6_bitmap) {
+    gbitmap_destroy(face_6_bitmap);
   }
-  if (face_07_bitmap) {
-    gbitmap_destroy(face_07_bitmap);
+  if (face_7_bitmap) {
+    gbitmap_destroy(face_7_bitmap);
   }
-  if (face_08_bitmap) {
-    gbitmap_destroy(face_08_bitmap);
+  if (face_8_bitmap) {
+    gbitmap_destroy(face_8_bitmap);
   }
-  if (face_09_bitmap) {
-    gbitmap_destroy(face_09_bitmap);
+  if (face_9_bitmap) {
+    gbitmap_destroy(face_9_bitmap);
   }
   if (face_10_bitmap) {
     gbitmap_destroy(face_10_bitmap);
