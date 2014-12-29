@@ -17,10 +17,63 @@ static GBitmap *face_10_bitmap;
 static GBitmap *face_11_bitmap;
 
 static void update_time(struct tm *tick_time) {
-  static char buffer[] = "00:00";
+  int hour;
   strftime(buffer, sizeof("00:00"), "%I:%M", tick_time);
   icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_00);
-  bitmap_layer_set_bitmap(bitmap_layer, face_00_bitmap);
+  switch((hour = tick_time->tm_sec % 12)) {
+  case 0:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_00_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_00_bitmap);
+    break;
+  case 1:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_01_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_01_bitmap);
+    break;
+  case 2:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_02_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_02_bitmap);
+    break;
+  case 3:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_03_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_03_bitmap);
+    break;
+  case 4:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_04_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_04_bitmap);
+    break;
+  case 5:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_05_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_05_bitmap);
+    break;
+  case 6:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_06_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_06_bitmap);
+    break;
+  case 7:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_07_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_07_bitmap);
+    break;
+  case 8:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_08_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_08_bitmap);
+    break;
+  case 9:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_09_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_09_bitmap);
+    break;
+  case 10:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_10_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_10_bitmap);
+    break;
+  case 11:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_11_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, face_11_bitmap);
+    break;
+  default:
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p", hour, face_00_bitmap);
+    bitmap_layer_set_bitmap(bitmap_layer, icon_bitmap);
+    break;
+  }
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
