@@ -1,12 +1,26 @@
 #include <pebble.h>
 
 static Window *window;
-static TextLayer *text_layer;
+static BitmapLayer *bitmap_layer;
+static GBitmap *icon_bitmap;
+static GBitmap *face_00_bitmap;
+static GBitmap *face_01_bitmap;
+static GBitmap *face_02_bitmap;
+static GBitmap *face_03_bitmap;
+static GBitmap *face_04_bitmap;
+static GBitmap *face_05_bitmap;
+static GBitmap *face_06_bitmap;
+static GBitmap *face_07_bitmap;
+static GBitmap *face_08_bitmap;
+static GBitmap *face_09_bitmap;
+static GBitmap *face_10_bitmap;
+static GBitmap *face_11_bitmap;
 
 static void update_time(struct tm *tick_time) {
   static char buffer[] = "00:00";
   strftime(buffer, sizeof("00:00"), "%I:%M", tick_time);
-  text_layer_set_text(text_layer, buffer);
+  icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_00);
+  bitmap_layer_set_bitmap(bitmap_layer, face_00_bitmap);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
@@ -20,16 +34,29 @@ static void window_load(Window *window) {
   time_t temp = time(NULL);
   struct tm *tick_time = localtime(&temp);
 
-  text_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
-  text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
+  icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON);
+  face_00_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_00);
+  face_01_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_01);
+  face_02_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_02);
+  face_03_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_03);
+  face_04_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_04);
+  face_05_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_05);
+  face_06_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_06);
+  face_07_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_07);
+  face_08_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_08);
+  face_09_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_09);
+  face_10_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_10);
+  face_11_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FACE_11);
+  bitmap_layer = bitmap_layer_create(bounds);
+  bitmap_layer_set_bitmap(bitmap_layer, icon_bitmap);
 
   update_time(tick_time);
 
-  layer_add_child(window_layer, text_layer_get_layer(text_layer));
+  layer_add_child(window_layer, bitmap_layer_get_layer(bitmap_layer));
 }
 
 static void window_unload(Window *window) {
-  text_layer_destroy(text_layer);
+  bitmap_layer_destroy(bitmap_layer);
 }
 
 static void init(void) {
@@ -38,7 +65,7 @@ static void init(void) {
     .load = window_load,
     .unload = window_unload,
   });
-  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
   const bool animated = true;
   window_stack_push(window, animated);
 }
