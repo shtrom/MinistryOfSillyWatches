@@ -22,8 +22,7 @@ static int cane_length;
 } while(0)
 
 static void load_face(struct tm *t) {
-  int hour;
-  switch((hour = t->tm_sec % 12)) {
+  switch(t->tm_hour % 12) {
   case 0:
     SET_FACE(0);
     break;
@@ -69,9 +68,13 @@ static void update_time(struct tm *tick_time) {
   bitmap_layer_set_bitmap(bitmap_layer, face_bitmap);
 }
 
-static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  if (units_changed && HOUR_UNIT) {
-    update_time(tick_time);
+static void tick_handler(struct tm *t, TimeUnits units_changed) {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "%d:%d:%d: unit changed %x",
+      t->tm_hour, t->tm_min, t->tm_sec, (int)units_changed);
+
+  if (units_changed & HOUR_UNIT) {
+    update_time(t);
+    vibes_double_pulse();
   }
 
   layer_mark_dirty(cane_layer);
@@ -82,11 +85,11 @@ static void cane_update_proc(struct Layer *layer, GContext *ctx) {
   time_t now = time(NULL);
   struct tm *t = localtime(&now);
 
-  int32_t angle = TRIG_MAX_ANGLE * (t->tm_min) / 60;
+  int32_t angle = TRIG_MAX_ANGLE * (t->tm_min*60 + t->tm_sec) / 3600;
   cane.y = (int16_t)(-cos_lookup(angle) * (int32_t)cane_length / TRIG_MAX_RATIO) + center.y;
   cane.x = (int16_t)(sin_lookup(angle) * (int32_t)cane_length / TRIG_MAX_RATIO) + center.x;
 
-  APP_LOG(APP_LOG_LEVEL_ERROR, "%d:%d: rotating cane to %d",
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "%d:%d: rotating cane to %d",
       t->tm_min, t->tm_sec, (int)angle);
 
   graphics_context_set_stroke_color(ctx, GColorBlack);
@@ -103,8 +106,12 @@ static void window_load(Window *window) {
   bitmap_layer = bitmap_layer_create(bounds);
   load_face(tick_time);
 
-  cane_length = bounds.size.w / 2.;
-  center = grect_center_point(&bounds);
+  /* Calculated to be in a common area of all images;
+   * See layer "Overlap" in resources/images/sillywalks/sillywalk.xcf
+   */
+  center.x = bounds.size.w * 67./144.;
+  center.y = bounds.size.h * 93./168.;
+  cane_length = center.x;
   cane_layer = layer_create(bounds);
   layer_set_update_proc(cane_layer, cane_update_proc);
 
