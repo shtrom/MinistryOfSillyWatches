@@ -29,6 +29,6 @@ Credits and resources
 [wp-silly-walks]: https://en.wikipedia.org/wiki/The_Ministry_of_Silly_Walks "The Ministry of Silly Walks. Wikipedia"
 [tg-silly-walk-watch]: https://www.thinkgeek.com/product/16bc/?srp=32 "Monty Python Ministry of Silly Walks Watch. ThinkGeek"
 [silly-gait]: resources/images/sillywalks/Silly_Walk_Gait.jpg "Silly Walk Gait, by Jazeen Hollings, CC-BY-SA 3.0"
-[screenshot]: resources/images/screenshot.png
+[screenshot]: resources/images/screenshot_framed.png
 [wc-silly-gait]: https://commons.wikimedia.org/wiki/File:Silly_Walk_Gait.jpg "Silly Walk Gait, by Jazeen Hollings, CC-BY-SA 3.0"
 [da-silly-walk]: http://goonofhazzard.deviantart.com/art/The-ministry-of-silly-walks-7665679 "The Ministry of Silly Walks, by goonofhazzard on DeviantArt: http://goonofhazzard.deviantart.com/art/The-ministry-of-silly-walks-7665679"
