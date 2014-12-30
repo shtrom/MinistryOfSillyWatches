@@ -3,6 +3,9 @@
 static Window *window;
 static BitmapLayer *bitmap_layer;
 static GBitmap *face_bitmap;
+static Layer *cane_layer;
+static GPoint center;
+static int cane_length;
 
 #define SET_FACE(FACE_ID) do {							\
   GBitmap *old_face_bitmap = face_bitmap;					\
@@ -13,15 +16,14 @@ static GBitmap *face_bitmap;
   }										\
   APP_LOG(APP_LOG_LEVEL_DEBUG, "%d: showing face %p",				\
       FACE_ID, face_bitmap);							\
-  bitmap_layer_set_bitmap(bitmap_layer, face_bitmap);				\
   if (old_face_bitmap) {							\
     gbitmap_destroy(old_face_bitmap);						\
   }										\
 } while(0)
 
-static void update_time(struct tm *tick_time) {
+static void load_face(struct tm *t) {
   int hour;
-  switch((hour = tick_time->tm_sec % 12)) {
+  switch((hour = t->tm_sec % 12)) {
   case 0:
     SET_FACE(0);
     break;
@@ -59,10 +61,36 @@ static void update_time(struct tm *tick_time) {
     SET_FACE(11);
     break;
   }
+
+}
+
+static void update_time(struct tm *tick_time) {
+  load_face(tick_time);
+  bitmap_layer_set_bitmap(bitmap_layer, face_bitmap);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  update_time(tick_time);
+  if (units_changed && HOUR_UNIT) {
+    update_time(tick_time);
+  }
+
+  layer_mark_dirty(cane_layer);
+}
+
+static void cane_update_proc(struct Layer *layer, GContext *ctx) {
+  GPoint cane;
+  time_t now = time(NULL);
+  struct tm *t = localtime(&now);
+
+  int32_t angle = TRIG_MAX_ANGLE * (t->tm_min) / 60;
+  cane.y = (int16_t)(-cos_lookup(angle) * (int32_t)cane_length / TRIG_MAX_RATIO) + center.y;
+  cane.x = (int16_t)(sin_lookup(angle) * (int32_t)cane_length / TRIG_MAX_RATIO) + center.x;
+
+  APP_LOG(APP_LOG_LEVEL_ERROR, "%d:%d: rotating cane to %d",
+      t->tm_min, t->tm_sec, (int)angle);
+
+  graphics_context_set_stroke_color(ctx, GColorBlack);
+  graphics_draw_line(ctx, cane, center);
 }
 
 static void window_load(Window *window) {
@@ -73,14 +101,24 @@ static void window_load(Window *window) {
   struct tm *tick_time = localtime(&temp);
 
   bitmap_layer = bitmap_layer_create(bounds);
+  load_face(tick_time);
+
+  cane_length = bounds.size.w / 2.;
+  center = grect_center_point(&bounds);
+  cane_layer = layer_create(bounds);
+  layer_set_update_proc(cane_layer, cane_update_proc);
 
   update_time(tick_time);
+  layer_mark_dirty(cane_layer);
 
   layer_add_child(window_layer, bitmap_layer_get_layer(bitmap_layer));
+  layer_add_child(window_layer, cane_layer);
 }
 
 static void window_unload(Window *window) {
+  layer_destroy(cane_layer);
   bitmap_layer_destroy(bitmap_layer);
+
   gbitmap_destroy(face_bitmap);
 }
 
