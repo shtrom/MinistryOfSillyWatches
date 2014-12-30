@@ -52,7 +52,7 @@ static int cane_length;
 } while(0)
 
 static void load_face(struct tm *t) {
-  switch(t->tm_hour % 12) {
+  switch(t->tm_sec % 12) {
   case 0:
     SET_FACE(0);
     break;
@@ -115,7 +115,7 @@ static void cane_update_proc(struct Layer *layer, GContext *ctx) {
   time_t now = time(NULL);
   struct tm *t = localtime(&now);
 
-  int32_t angle = TRIG_MAX_ANGLE * (t->tm_min*60 + t->tm_sec) / 3600;
+  int32_t angle = TRIG_MAX_ANGLE * (t->tm_sec*60 + t->tm_sec) / 3600;
   cane.y = (int16_t)(-cos_lookup(angle) * (int32_t)cane_length / TRIG_MAX_RATIO) + center.y;
   cane.x = (int16_t)(sin_lookup(angle) * (int32_t)cane_length / TRIG_MAX_RATIO) + center.x;
 
@@ -172,7 +172,7 @@ static void init(void) {
    * the time elapsed since the full minute, just like analog watches.
    * This is disabled by default to avoid using too much battery.
    */
-  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
   const bool animated = true;
   window_stack_push(window, animated);
 }
