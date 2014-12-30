@@ -135,7 +135,7 @@ static void init(void) {
     .load = window_load,
     .unload = window_unload,
   });
-  tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
   const bool animated = true;
   window_stack_push(window, animated);
 }
