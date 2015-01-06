@@ -3,7 +3,10 @@ Ministry of Silly Watches
 
 [![Flattr this][flattr-button]][flattr-link]
 
-A silly watchface for Pebble smart watches.
+A silly watchface for Pebble smart watches. Available from the
+[Pebble App Store][pebble-app-store]
+([directly on a phone][pebble-app-store-app])
+and [MyPebbleFaces][mypebblefaces].
 
 ![It is 2.37-ish][screenshot]
 
@@ -35,6 +38,9 @@ If you like this watchface, you can [Flattr][flattr] it!
 
 [![Flattr this][flattr-button]][flattr-link]
 
+[pebble-app-store]: https://apps.getpebble.com/applications/54a290f347214249db00007f
+[pebble-app-store-app]: pebble://appstore/54a290f347214249db00007f
+[mypebblefaces]: http://www.mypebblefaces.com/apps/26430/11515/
 [silly-walk]: resources/images/sillywalks/The_ministry_of_silly_walks.jpg "The Ministry of Silly Walks, by goonofhazzard on DeviantArt: http://goonofhazzard.deviantart.com/art/The-ministry-of-silly-walks-7665679"
 [wp-silly-walks]: https://en.wikipedia.org/wiki/The_Ministry_of_Silly_Walks "The Ministry of Silly Walks. Wikipedia"
 [tg-silly-walk-watch]: https://www.thinkgeek.com/product/16bc/?srp=32 "Monty Python Ministry of Silly Walks Watch. ThinkGeek"
