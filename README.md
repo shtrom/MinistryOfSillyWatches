@@ -50,4 +50,4 @@ If you like this watchface, you can [Flattr][flattr] it!
 [da-silly-walk]: http://goonofhazzard.deviantart.com/art/The-ministry-of-silly-walks-7665679 "The Ministry of Silly Walks, by goonofhazzard on DeviantArt: http://goonofhazzard.deviantart.com/art/The-ministry-of-silly-walks-7665679"
 [flattr]: https://flattr.com/
 [flattr-button]: https://api.flattr.com/button/flattr-badge-large.png
-[flattr-link]: https://flattr.com/submit/auto?user_id=shtrom&url=https%3A%2F%2Fscm.narf.ssji.net%2Fgit%2FMinistryOfSillyWatches%2F
+[flattr-link]: https://flattr.com/thing/3786408
